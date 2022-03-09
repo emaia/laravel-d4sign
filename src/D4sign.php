@@ -8,5 +8,4 @@ class D4sign
     {
         return 'hello!';
     }
-
 }

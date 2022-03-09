@@ -8,7 +8,6 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class D4signServiceProvider extends PackageServiceProvider
 {
-
     public function configurePackage(Package $package): void
     {
         /*
@@ -27,5 +26,4 @@ class D4signServiceProvider extends PackageServiceProvider
     {
         $this->app->bind('d4sign', D4sign::class);
     }
-
 }
