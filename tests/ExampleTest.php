@@ -1,5 +1,10 @@
 <?php
 
+use Emaia\D4sign\Facades\D4sign;
+
 it('can test', function () {
-    expect(true)->toBeTrue();
+
+    $result = D4sign::greet();
+
+    expect($result)->toBe('hello!');
 });

@@ -8,6 +8,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class D4signServiceProvider extends PackageServiceProvider
 {
+
     public function configurePackage(Package $package): void
     {
         /*
@@ -19,7 +20,12 @@ class D4signServiceProvider extends PackageServiceProvider
             ->name('laravel-d4sign')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_laravel-d4sign_table')
             ->hasCommand(D4signCommand::class);
     }
+
+    public function packageRegistered(): void
+    {
+        $this->app->bind('d4sign', D4sign::class);
+    }
+
 }
