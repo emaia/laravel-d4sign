@@ -3,7 +3,6 @@
 namespace Emaia\D4sign\Tests;
 
 use Emaia\D4sign\D4signServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -11,10 +10,6 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Emaia\\D4sign\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
     }
 
     protected function getPackageProviders($app)
@@ -26,11 +21,7 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app)
     {
-        config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-d4sign_table.php.stub';
-        $migration->up();
-        */
+         config()->set('d4sign.token_api', env('D4SIGN_API_KEY'));
+         config()->set('d4sign.crypt_key', env('D4SIGN_CRYPT_KEY'));
     }
 }
