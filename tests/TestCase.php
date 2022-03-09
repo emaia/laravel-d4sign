@@ -2,9 +2,9 @@
 
 namespace Emaia\D4sign\Tests;
 
+use Emaia\D4sign\D4signServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Emaia\D4sign\D4signServiceProvider;
 
 class TestCase extends Orchestra
 {

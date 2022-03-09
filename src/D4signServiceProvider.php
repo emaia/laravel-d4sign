@@ -2,9 +2,9 @@
 
 namespace Emaia\D4sign;
 
+use Emaia\D4sign\Commands\D4signCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Emaia\D4sign\Commands\D4signCommand;
 
 class D4signServiceProvider extends PackageServiceProvider
 {
