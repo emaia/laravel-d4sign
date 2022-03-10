@@ -8,6 +8,6 @@ class Safes extends Service
 {
     public function all(): array
     {
-        return $this->client->get('safes');
+        return $this->client->get("safes");
     }
 }

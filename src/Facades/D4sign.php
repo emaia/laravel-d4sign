@@ -3,15 +3,17 @@
 namespace Emaia\D4sign\Facades;
 
 use Emaia\D4sign\Services\Account;
+use Emaia\D4sign\Services\Folders;
+use Emaia\D4sign\Services\Groups;
 use Emaia\D4sign\Services\Safes;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Emaia\D4sign\D4sign
- * @see \Emaia\D4sign\D4sign::account
- * @method Account account()
- * @see \Emaia\D4sign\D4sign::safes
- * @method Safes safes()
+ * @method static Account account()
+ * @method static Safes safes()
+ * @method static Folders folders()
+ * @method static Groups groups()
  */
 class D4sign extends Facade
 {

@@ -8,6 +8,11 @@ class Account extends Service
 {
     public function balance(): array
     {
-        return $this->client->get('account/balance');
+        return $this->client->get("account/balance");
+    }
+
+    public function testCall(): array
+    {
+        return $this->client->get("testcall");
     }
 }

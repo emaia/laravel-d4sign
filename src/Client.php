@@ -5,7 +5,7 @@ namespace Emaia\D4sign;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
-class Client
+class Client implements ClientInterface
 {
     protected PendingRequest $client;
 
@@ -30,5 +30,10 @@ class Client
     public function get(string $url, array $query = []): array
     {
         return $this->client->get($url, $query)->json();
+    }
+
+    public function post(string $url, array $payload = []): array
+    {
+        return $this->client->post($url, $payload)->json();
     }
 }

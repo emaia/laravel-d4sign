@@ -2,7 +2,7 @@
 
 use Emaia\D4sign\Facades\D4sign;
 
-it('get all account safes.', function () {
+it('can get all account safes.', function () {
 
     $result = D4sign::safes()->all();
 

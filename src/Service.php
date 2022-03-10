@@ -4,9 +4,9 @@ namespace Emaia\D4sign;
 
 abstract class Service
 {
-    protected Client $client;
+    protected ClientInterface $client;
 
-    public function __construct() {
-        $this->client = new Client();
+    public function __construct(ClientInterface $client) {
+        $this->client = new $client;
     }
 }

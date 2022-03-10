@@ -25,5 +25,6 @@ class D4signServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->app->bind('d4sign', D4sign::class);
+        $this->app->bind(ClientInterface::class, Client::class);
     }
 }
