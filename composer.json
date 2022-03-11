@@ -47,7 +47,7 @@
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest --exclude-group=integration",
-        "test-coverage": "vendor/bin/pest --coverage"
+        "test-coverage": "vendor/bin/pest --coverage --exclude-group=integration"
     },
     "config": {
         "sort-packages": true
