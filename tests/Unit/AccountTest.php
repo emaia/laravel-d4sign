@@ -3,7 +3,6 @@
 use Emaia\D4sign\Facades\D4sign;
 
 it('can test api call.', function () {
-
     mockHttpResponse(['message' => 'OK']);
 
     $result = D4sign::account()->testCall();
@@ -13,14 +12,13 @@ it('can test api call.', function () {
 });
 
 it('can check the account balance.', function () {
-
     mockHttpResponse(
         [
             'credit' => '',
             'sent' => '',
             'used_balance' => '',
             'sms' => '',
-            'whatsapp' => ''
+            'whatsapp' => '',
         ]
     );
 
@@ -32,6 +30,6 @@ it('can check the account balance.', function () {
         'sent',
         'used_balance',
         'sms',
-        'whatsapp'
+        'whatsapp',
     ]);
 });

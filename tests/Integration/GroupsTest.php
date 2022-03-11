@@ -9,5 +9,4 @@ it('can get all groups in a safe.', function () {
 
     expect($result)->toBeArray();
     expect($result[0])->toHaveKeys(['uuid_grupo', 'nome']);
-
 })->group('integration');

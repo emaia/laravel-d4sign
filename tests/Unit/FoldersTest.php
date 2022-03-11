@@ -18,7 +18,7 @@ it('can get all folders in a safe.', function () {
         'uuid_safe' => faker()->uuid,
         'uuid_folder' => faker()->uuid,
         'name' => faker()->name,
-        'dt_cadastro' => faker()->dateTime
+        'dt_cadastro' => faker()->dateTime,
     ]);
 
     $result = D4sign::folders()->find(faker()->uuid);

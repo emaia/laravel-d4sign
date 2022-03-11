@@ -9,8 +9,8 @@ it('can get all groups in a safe.', function () {
         [
             [
                 "uuid_grupo" => "348452a7-3357-444b-90a9-7f043aaac29b",
-                "nome" => "Test group"
-            ]
+                "nome" => "Test group",
+            ],
         ]
     );
 

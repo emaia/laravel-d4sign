@@ -9,6 +9,6 @@ uses(TestCase::class)->in(__DIR__);
 function mockHttpResponse(array $response, int $status = 200): Factory
 {
     return Http::fake([
-        'https://sandbox.d4sign.com.br/api/*' => Http::response($response, $status)
+        'https://sandbox.d4sign.com.br/api/*' => Http::response($response, $status),
     ]);
 }

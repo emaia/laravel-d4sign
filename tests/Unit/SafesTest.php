@@ -5,13 +5,12 @@ use Emaia\D4sign\Facades\D4sign;
 use function Pest\Faker\faker;
 
 it('can get all account safes.', function () {
-
     mockHttpResponse(
         [
             [
                 "uuid_safe" => faker()->uuid,
-                "name-safe" => faker()->name
-            ]
+                "name-safe" => faker()->name,
+            ],
         ]
     );
 
@@ -19,5 +18,4 @@ it('can get all account safes.', function () {
 
     expect($result)->toBeArray();
     expect($result[0])->toHaveKeys(['uuid_safe', 'name-safe']);
-
 });

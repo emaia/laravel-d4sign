@@ -18,11 +18,10 @@ it('can get all documents in the account on page 2.', function () {
     $result = D4sign::documents()->all(2);
 
     expect($result)->toBeArray();
-    expect($result[0])->toHaveKey('current_page','2');
+    expect($result[0])->toHaveKey('current_page', '2');
 })->group('integration');
 
 it('can upload a primary document.', function () {
-
     $safe = D4sign::safes()->all();
 
     $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
@@ -31,11 +30,9 @@ it('can upload a primary document.', function () {
 
     expect($result)->toBeArray();
     expect($result)->toHaveKey('uuid');
-
 })->group('integration');
 
 it('can get a documents by id.', function () {
-
     $documents = D4sign::documents()->all();
     $result = D4sign::documents()->find($documents[1]['uuidDoc']);
 
