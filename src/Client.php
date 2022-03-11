@@ -9,10 +9,6 @@ class Client implements ClientInterface
 {
     protected PendingRequest $client;
 
-    protected const ENV_PRODUCTION = 'https://secure.d4sign.com.br/api/v1/';
-
-    protected const ENV_SANDBOX = 'https://sandbox.d4sign.com.br/api/v1/';
-
     public function __construct()
     {
         $this->client = Http::withHeaders([
@@ -24,7 +20,7 @@ class Client implements ClientInterface
 
     protected function getBaseUrl(): string
     {
-        return config('d4sign.environment') === 'production' ? self::ENV_PRODUCTION : self::ENV_SANDBOX;
+        return config('d4sign.environment') === 'production' ? config('d4sign.production_url') : config('d4sign.sandbox_url');
     }
 
     public function get(string $url, array $query = []): array
