@@ -36,4 +36,9 @@ class Client implements ClientInterface
     {
         return $this->client->post($url, $payload)->json();
     }
+
+    public function attach(string $name, $content): PendingRequest
+    {
+        return $this->client->attach($name, $content);
+    }
 }

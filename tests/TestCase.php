@@ -11,7 +11,7 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        // $this->app->bind(ClientInterface::class, FakeClient::class);
+        $this->app->bind(ClientInterface::class, FakeClient::class);
     }
 
     protected function getPackageProviders($app)

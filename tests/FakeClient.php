@@ -18,4 +18,9 @@ class FakeClient implements ClientInterface
         $data = file_get_contents(__DIR__.'/Mocks/'.$url.'.json');
         return json_decode($data, true);
     }
+
+    public function attach(string $name, $content): static
+    {
+        return $this;
+    }
 }
