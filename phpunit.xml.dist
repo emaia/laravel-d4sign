@@ -19,7 +19,7 @@
     verbose="true"
 >
     <php>
-        <env name="D4SIGN_API_KEY" value="live_xxxxx"/>
+        <env name="D4SIGN_TOKEN_API" value="live_xxxxx"/>
         <env name="D4SIGN_CRYPT_KEY" value="live_crypt_xxxxx"/>
     </php>
     <testsuites>
