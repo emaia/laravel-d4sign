@@ -2,7 +2,6 @@
 
 namespace Emaia\D4sign\Tests;
 
-use Emaia\D4sign\ClientInterface;
 use Emaia\D4sign\D4signServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -11,7 +10,6 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        $this->app->bind(ClientInterface::class, FakeClient::class);
     }
 
     protected function getPackageProviders($app)

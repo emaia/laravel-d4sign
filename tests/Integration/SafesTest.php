@@ -8,4 +8,4 @@ it('can get all account safes.', function () {
 
     expect($result[0])->toHaveKeys(['uuid_safe', 'name-safe']);
 
-});
+})->group('integration');

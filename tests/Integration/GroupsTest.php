@@ -8,6 +8,7 @@ it('can get all groups in a safe.', function () {
 
     $result = D4sign::groups()->all($safe[0]["uuid_safe"]);
 
+    expect($result)->toBeArray();
     expect($result[0])->toHaveKeys(['uuid_grupo', 'nome']);
 
-});
+})->group('integration');

@@ -12,24 +12,39 @@ it('can get all documents in the account (limited by 500 per page).', function (
         'current_page',
         'total_pages'
     ]);
-});
+})->group('integration');
 
 it('can get all documents in the account on page 2.', function () {
     $result = D4sign::documents()->all(2);
 
     expect($result)->toBeArray();
     expect($result[0])->toHaveKey('current_page','2');
-});
+})->group('integration');
+
+it('can upload a primary document.', function () {
+
+    $safe = D4sign::safes()->all();
+
+    $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
+
+    $result = D4sign::documents()->upload($safe[0]['uuid_safe'], $file);
+
+    expect($result)->toBeArray();
+    expect($result)->toHaveKey('uuid');
+
+})->group('integration');
 
 it('can get a documents by id.', function () {
-    $result = D4sign::documents()->find('9f08bf18-bf4b-410f-9701-c286e5b1cad1');
+
+    $documents = D4sign::documents()->all();
+    $result = D4sign::documents()->find($documents[1]['uuidDoc']);
 
     expect($result)->toBeArray();
     expect($result[0])->toHaveKeys([
         'uuidDoc',
         'nameDoc'
     ]);
-});
+})->group('integration');
 
 it('can get all documents from a safe.', function () {
     $result = D4sign::documents()->fromSafe('06b3ddb1-abc9-4ab8-b944-0d7c940486af');
@@ -39,7 +54,7 @@ it('can get all documents from a safe.', function () {
         'uuidDoc',
         'nameDoc'
     ]);
-});
+})->group('integration');
 
 it('can get all documents from a folder.', function () {
     $result = D4sign::documents()->fromFolder('06b3ddb1-abc9-4ab8-b944-0d7c940486af', '6e2a7667-b440-4cf9-ae02-cdab85f2eeea');
@@ -49,4 +64,4 @@ it('can get all documents from a folder.', function () {
         'uuidDoc',
         'nameDoc'
     ]);
-});
+})->group('integration');
