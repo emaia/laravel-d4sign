@@ -16,9 +16,9 @@ class Client implements ClientInterface
     public function __construct()
     {
         $this->client = Http::withHeaders([
-            'Accept'   => 'application/json',
+            'Accept' => 'application/json',
             'tokenAPI' => config('d4sign.token_api'),
-            'cryptKey' => config('d4sign.crypt_key')
+            'cryptKey' => config('d4sign.crypt_key'),
         ])->baseUrl($this->getBaseUrl());
     }
 

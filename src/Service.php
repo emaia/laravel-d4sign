@@ -6,7 +6,8 @@ abstract class Service
 {
     protected ClientInterface $client;
 
-    public function __construct(ClientInterface $client) {
-        $this->client = new $client;
+    public function __construct(ClientInterface $client)
+    {
+        $this->client = new $client();
     }
 }

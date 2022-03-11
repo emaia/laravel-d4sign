@@ -30,8 +30,7 @@ class Documents extends Service
     {
         return $this->client->attach('file', $file)
             ->post(sprintf("documents%s/upload", $uuid_safe ? '/'.$uuid_safe : ''), [
-                'uuid_folder' => $uuid_folder
+                'uuid_folder' => $uuid_folder,
             ])->json();
     }
-
 }

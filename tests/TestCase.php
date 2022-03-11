@@ -21,7 +21,7 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app)
     {
-         config()->set('d4sign.token_api', env('D4SIGN_TOKEN_API'));
-         config()->set('d4sign.crypt_key', env('D4SIGN_CRYPT_KEY'));
+        config()->set('d4sign.token_api', env('D4SIGN_TOKEN_API'));
+        config()->set('d4sign.crypt_key', env('D4SIGN_CRYPT_KEY'));
     }
 }

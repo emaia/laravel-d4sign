@@ -16,6 +16,6 @@ it('can check the account balance.', function () {
         'sent',
         'used_balance',
         'sms',
-        'whatsapp'
+        'whatsapp',
     ]);
 })->group('integration');

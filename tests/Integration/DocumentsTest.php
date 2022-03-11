@@ -10,7 +10,7 @@ it('can get all documents in the account (limited by 500 per page).', function (
         'total_documents',
         'total_in_this_page',
         'current_page',
-        'total_pages'
+        'total_pages',
     ]);
 })->group('integration');
 
@@ -42,7 +42,7 @@ it('can get a documents by id.', function () {
     expect($result)->toBeArray();
     expect($result[0])->toHaveKeys([
         'uuidDoc',
-        'nameDoc'
+        'nameDoc',
     ]);
 })->group('integration');
 
@@ -52,7 +52,7 @@ it('can get all documents from a safe.', function () {
     expect($result)->toBeArray();
     expect($result[0])->toHaveKeys([
         'uuidDoc',
-        'nameDoc'
+        'nameDoc',
     ]);
 })->group('integration');
 
@@ -62,6 +62,6 @@ it('can get all documents from a folder.', function () {
     expect($result)->toBeArray();
     expect($result[0])->toHaveKeys([
         'uuidDoc',
-        'nameDoc'
+        'nameDoc',
     ]);
 })->group('integration');

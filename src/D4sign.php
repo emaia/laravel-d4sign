@@ -16,7 +16,8 @@ class D4sign
         public Folders $folders,
         public Groups $groups,
         public Safes $safes,
-    ) {}
+    ) {
+    }
 
     public function account(): Account
     {

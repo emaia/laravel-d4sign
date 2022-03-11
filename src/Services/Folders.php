@@ -14,7 +14,7 @@ class Folders extends Service
     public function create(string $uuid_safe, string $folder_name): array
     {
         return $this->client->post("folders/{$uuid_safe}/create", [
-            'folder_name' => $folder_name
+            'folder_name' => $folder_name,
         ]);
     }
 
@@ -22,7 +22,7 @@ class Folders extends Service
     {
         return $this->client->post("folders/{$uuid_safe}/rename", [
             'uuid_folder' => $uuid_folder,
-            'folder_name' => $folder_name
+            'folder_name' => $folder_name,
         ]);
     }
 }
