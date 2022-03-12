@@ -7,10 +7,10 @@ use function Pest\Faker\faker;
 it('can create a new folder in a safe.', function () {
     mockHttpResponse(['message' => '...', 'uuid' => '...']);
 
-    $result = D4sign::folders()->create(faker()->uuid, faker()->name);
+    $response = D4sign::folders()->create(faker()->uuid, faker()->name);
 
-    expect($result)->toBeArray();
-    expect($result)->toHaveKeys(['message', 'uuid']);
+    expect($response)->toBeArray();
+    expect($response)->toHaveKeys(['message', 'uuid']);
 });
 
 it('can get all folders in a safe.', function () {
@@ -21,21 +21,21 @@ it('can get all folders in a safe.', function () {
         'dt_cadastro' => faker()->dateTime,
     ]);
 
-    $result = D4sign::folders()->find(faker()->uuid);
+    $response = D4sign::folders()->find(faker()->uuid);
 
-    expect($result)->toBeArray();
-    expect($result)->toHaveKeys(['uuid_safe', 'uuid_folder', 'name', 'dt_cadastro']);
+    expect($response)->toBeArray();
+    expect($response)->toHaveKeys(['uuid_safe', 'uuid_folder', 'name', 'dt_cadastro']);
 });
 
 it('can rename a folder in a safe.', function () {
     mockHttpResponse(['message' => faker()->text]);
 
-    $result = D4sign::folders()->rename(
+    $response = D4sign::folders()->rename(
         faker()->uuid,
         faker()->uuid,
         faker()->name
     );
 
-    expect($result)->toBeArray();
-    expect($result)->toHaveKey('message');
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('message');
 });

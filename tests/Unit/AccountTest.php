@@ -5,10 +5,10 @@ use Emaia\D4sign\Facades\D4sign;
 it('can test api call.', function () {
     mockHttpResponse(['message' => 'OK']);
 
-    $result = D4sign::account()->testCall();
+    $response = D4sign::account()->testCall();
 
-    expect($result)->toBeArray();
-    expect($result)->toHaveKeys(['message']);
+    expect($response)->toBeArray();
+    expect($response)->toHaveKeys(['message']);
 });
 
 it('can check the account balance.', function () {
@@ -22,10 +22,10 @@ it('can check the account balance.', function () {
         ]
     );
 
-    $result = D4sign::account()->balance();
+    $response = D4sign::account()->balance();
 
-    expect($result)->toBeArray();
-    expect($result)->toHaveKeys([
+    expect($response)->toBeArray();
+    expect($response)->toHaveKeys([
         'credit',
         'sent',
         'used_balance',

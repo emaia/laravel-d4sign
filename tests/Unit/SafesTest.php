@@ -14,8 +14,8 @@ it('can get all account safes.', function () {
         ]
     );
 
-    $result = D4sign::safes()->all();
+    $response = D4sign::safes()->all();
 
-    expect($result)->toBeArray();
-    expect($result[0])->toHaveKeys(['uuid_safe', 'name-safe']);
+    expect($response)->toBeArray();
+    expect($response[0])->toHaveKeys(['uuid_safe', 'name-safe']);
 });
