@@ -11,7 +11,7 @@ it('can get all documents in the account (limited by 500 per page).', function (
             "total_in_this_page" => 1,
             "current_page" => 1,
             "total_pages" => 1,
-        ]
+        ],
     ]);
     $response = D4sign::documents()->all();
 
@@ -31,7 +31,7 @@ it('can get all documents in the account on page 2.', function () {
             "total_in_this_page" => 10,
             "current_page" => 2,
             "total_pages" => 30,
-        ]
+        ],
     ]);
 
     $response = D4sign::documents()->all(2);
@@ -71,7 +71,7 @@ it('can get all documents from a safe.', function () {
             "total_in_this_page" => 1,
             "current_page" => 1,
             "total_pages" => 1,
-        ]
+        ],
     ]);
     $response = D4sign::documents()->fromSafe(faker()->uuid);
 
@@ -85,14 +85,13 @@ it('can get all documents from a safe.', function () {
 });
 
 it('can get all documents from a folder.', function () {
-
     mockHttpResponse([
         [
             "total_documents" => 5,
             "total_in_this_page" => 1,
             "current_page" => 1,
             "total_pages" => 1,
-        ]
+        ],
     ]);
 
     $response = D4sign::documents()->fromFolder(faker()->uuid, faker()->uuid);
