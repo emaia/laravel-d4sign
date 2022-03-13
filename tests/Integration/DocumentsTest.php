@@ -1,6 +1,7 @@
 <?php
 
 use Emaia\D4sign\Facades\D4sign;
+use function Pest\Faker\faker;
 
 it('can get all documents in the account (limited by 500 per page).', function () {
     $response = D4sign::documents()->all();
@@ -70,3 +71,26 @@ it('can get all documents from a folder.', function () {
         'total_pages',
     ]);
 })->group('integration');
+
+it('can get all documents by status.', function () {
+    $response = D4sign::documents()->byStatus(faker()->numberBetween(1, 7));
+
+    expect($response)->toBeArray();
+    expect($response[0])->toHaveKeys([
+        'total_documents',
+        'total_in_this_page',
+        'current_page',
+        'total_pages',
+    ]);
+})->group('integration');
+
+it('can get all document signers.', function () {
+    $documents = D4sign::documents()->all();
+    $response = D4sign::documents()->signers($documents[1]['uuidDoc']);
+
+    expect($response)->toBeArray();
+    expect($response[0])->toHaveKeys([
+        'uuidDoc',
+        'list',
+    ]);
+});
