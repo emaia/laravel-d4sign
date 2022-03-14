@@ -51,7 +51,7 @@ it('can upload a primary document.', function () {
     expect($response)->toHaveKey('uuid');
 });
 
-it('can get a documents by id.', function () {
+it('can get a document by id.', function () {
     mockHttpResponse([['uuidDoc' => faker()->uuid, 'nameDoc' => faker()->text]]);
 
     $response = D4sign::documents()->find(faker()->uuid);
@@ -139,5 +139,32 @@ it('can get all document signers.', function () {
     expect($response[0])->toHaveKeys([
         'uuidDoc',
         'list',
+    ]);
+});
+
+it('can register a signer in a document.', function () {
+    mockHttpResponse([
+        [
+            'key_signer' => faker()->text(5),
+            'email' => faker()->email,
+        ],
+    ]);
+
+    $signers = [
+        [
+            'email' => faker()->email,
+            'act' => faker()->numberBetween(1, 13),
+            'foreign' => 0,
+            'certificadoicpbr' => 0,
+            'assinatura_presencial' => 0,
+        ],
+    ];
+
+    $response = D4sign::documents()->addSigners(faker()->uuid, $signers);
+
+    expect($response)->toBeArray();
+    expect($response[0])->toHaveKeys([
+        'key_signer',
+        'email',
     ]);
 });

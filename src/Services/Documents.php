@@ -43,4 +43,9 @@ class Documents extends Service
                 'uuid_folder' => $uuid_folder,
             ])->json();
     }
+
+    public function addSigners(string $document_uuid, array $signers): array
+    {
+        return $this->client->post("documents/{$document_uuid}/createlist", ['signers' => json_encode($signers)]);
+    }
 }

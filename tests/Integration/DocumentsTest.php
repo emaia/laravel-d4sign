@@ -93,4 +93,30 @@ it('can get all document signers.', function () {
         'uuidDoc',
         'list',
     ]);
-});
+})->group('integration');
+
+it('can register a signer in a document.', function () {
+    $safe = D4sign::safes()->all();
+
+    $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
+
+    $uploadedFile = D4sign::documents()->upload($safe[0]['uuid_safe'], $file);
+
+    $signers = [
+        [
+            'email' => faker()->safeEmail,
+            'act' => 1,
+            'foreign' => 0,
+            'certificadoicpbr' => 0,
+            'assinatura_presencial' => 0,
+        ],
+    ];
+
+    $response = D4sign::documents()->addSigners($uploadedFile['uuid'], $signers);
+
+    expect($response)->toBeArray();
+    expect($response['message'][0])->toHaveKeys([
+        'key_signer',
+        'email',
+    ]);
+})->group('integration');
