@@ -88,6 +88,24 @@ it('can upload an attachment binary to the primary document.', function () {
     expect($response)->toHaveKey('uuid');
 });
 
+it('can upload a document hash.', function () {
+    mockHttpResponse(['uuid' => faker()->uuid]);
+
+    $file = (faker()->text);
+    $name = 'Sample Document';
+
+    $response = D4sign::documents()->uploadHash(
+        faker()->uuid,
+        hash('sha256', $file),
+        hash('sha512', $file),
+        $name,
+        faker()->uuid
+    );
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('uuid');
+});
+
 it('can get a document by id.', function () {
     mockHttpResponse([['uuidDoc' => faker()->uuid, 'nameDoc' => faker()->text]]);
 

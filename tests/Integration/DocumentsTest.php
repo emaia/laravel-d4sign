@@ -75,6 +75,25 @@ it('can upload a attachment binary to the primary document.', function () {
     expect($response)->toHaveKey('message', 'File created');
 })->group('integration');
 
+it('can upload a document hash.', function () {
+    $safe = D4sign::safes()->all();
+    $filePath = __DIR__.'/../Mocks/d4sign-sample-document.pdf';
+
+    $fileSha256 = hash('sha256', $filePath);
+    $fileSha512 = hash('sha512', $filePath);
+    $fileName = 'Sample Document Hash';
+
+    $response = D4sign::documents()->uploadHash(
+        $safe[0]['uuid_safe'],
+        hash('sha256', $fileSha256),
+        hash('sha512', $fileSha512),
+        $fileName,
+    );
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('uuid');
+})->group('integration');
+
 it('can get a documents by id.', function () {
     $documents = D4sign::documents()->all();
     $response = D4sign::documents()->find($documents[1]['uuidDoc']);

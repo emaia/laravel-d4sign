@@ -14,27 +14,27 @@ class Documents extends Service
 
     public function find(string $uuidDocument = ''): array
     {
-        return $this->client->get(sprintf('documents%s', $uuidDocument ? "/{$uuidDocument}" : ''));
+        return $this->client->get(sprintf('documents%s', $uuidDocument ? "/$uuidDocument" : ''));
     }
 
     public function fromSafe(string $uuidSafe, int $page = 1): array
     {
-        return $this->client->get("documents/{$uuidSafe}/safe", ['pg' => $page]);
+        return $this->client->get("documents/$uuidSafe/safe", ['pg' => $page]);
     }
 
     public function fromFolder(string $uuidSafe, string $uuidFolder, int $page = 1): array
     {
-        return $this->client->get("documents/{$uuidSafe}/safe/{$uuidFolder}", ['pg' => $page]);
+        return $this->client->get("documents/$uuidSafe/safe/$uuidFolder", ['pg' => $page]);
     }
 
     public function byStatus(int $documentStatusId, int $page = 1): array
     {
-        return $this->client->get("documents/{$documentStatusId}/status", ['pg' => $page]);
+        return $this->client->get("documents/$documentStatusId/status", ['pg' => $page]);
     }
 
     public function signers(string $uuidDocument): array
     {
-        return $this->client->get("documents/{$uuidDocument}/list");
+        return $this->client->get("documents/$uuidDocument/list");
     }
 
     public function upload(string $uuidSafe, $file, string $uuidFolder = ''): array
@@ -42,7 +42,7 @@ class Documents extends Service
         $this->isValidResource($file);
 
         return $this->client->attach('file', $file)
-            ->post(sprintf('documents%s/upload', $uuidSafe ? "/{$uuidSafe}" : ''), [
+            ->post(sprintf('documents%s/upload', $uuidSafe ? "/$uuidSafe" : ''), [
                 'uuid_folder' => $uuidFolder,
             ])->json();
     }
@@ -52,9 +52,8 @@ class Documents extends Service
         $this->isValidResource($file);
 
         return $this->client->attach('file', $file)
-            ->post("documents/{$uuidDocument}/uploadslave")
-            ->json()
-        ;
+            ->post("documents/$uuidDocument/uploadslave")
+            ->json();
     }
 
     public function uploadBinary(
@@ -64,7 +63,7 @@ class Documents extends Service
         string $fileName,
         string $uuidFolder = ''
     ): array {
-        return $this->client->post("documents/{$uuidSafe}/uploadbinary", [
+        return $this->client->post("documents/$uuidSafe/uploadbinary", [
             'base64_binary_file' => $base64BinaryFile,
             'mime_type' => $mimeType,
             'name' => $fileName,
@@ -78,17 +77,32 @@ class Documents extends Service
         string $mimeType,
         string $fileName,
     ): array {
-        return $this->client->post("documents/{$uuidDocument}/uploadslavebinary", [
+        return $this->client->post("documents/$uuidDocument/uploadslavebinary", [
             'base64_binary_file' => $base64BinaryFile,
             'mime_type' => $mimeType,
             'name' => $fileName,
         ]);
     }
 
+    public function uploadHash(
+        string $uuidSafe,
+        string $sha256,
+        string $sha512,
+        string $fileName = '',
+        string $uuidFolder = ''
+    ): array {
+        return $this->client->post("documents/$uuidSafe/uploadhash", [
+            'sha256' => $sha256,
+            'sha512' => $sha512,
+            'name' => $fileName,
+            'uuid_folder' => $uuidFolder,
+        ]);
+    }
+
     public function addSigners(string $uuidDocument, array $signers): array
     {
         return $this->client->post(
-            "documents/{$uuidDocument}/createlist",
+            "documents/$uuidDocument/createlist",
             ['signers' => json_encode($signers)]
         );
     }
