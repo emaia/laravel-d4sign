@@ -3,6 +3,7 @@
 namespace Emaia\D4sign\Services;
 
 use Emaia\D4sign\Service;
+use InvalidArgumentException;
 
 class Documents extends Service
 {
@@ -13,7 +14,7 @@ class Documents extends Service
 
     public function find(string $uuidDocument = ''): array
     {
-        return $this->client->get(sprintf('documents%s', $uuidDocument ? '/'.$uuidDocument : ''));
+        return $this->client->get(sprintf('documents%s', $uuidDocument ? "/{$uuidDocument}" : ''));
     }
 
     public function fromSafe(string $uuidSafe, int $page = 1): array
@@ -38,14 +39,18 @@ class Documents extends Service
 
     public function upload(string $uuidSafe, $file, string $uuidFolder = ''): array
     {
+        $this->isValidResource($file);
+
         return $this->client->attach('file', $file)
-            ->post(sprintf('documents%s/upload', $uuidSafe ? '/'.$uuidSafe : ''), [
+            ->post(sprintf('documents%s/upload', $uuidSafe ? "/{$uuidSafe}" : ''), [
                 'uuid_folder' => $uuidFolder,
             ])->json();
     }
 
     public function uploadAttachment(string $uuidDocument, $file): array
     {
+        $this->isValidResource($file);
+
         return $this->client->attach('file', $file)
             ->post("documents/{$uuidDocument}/uploadslave")
             ->json()
@@ -86,5 +91,17 @@ class Documents extends Service
             "documents/{$uuidDocument}/createlist",
             ['signers' => json_encode($signers)]
         );
+    }
+
+    protected function isValidResource($file)
+    {
+        if (false === is_resource($file)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Argument must be a valid resource type. %s given.',
+                    gettype($file)
+                )
+            );
+        }
     }
 }

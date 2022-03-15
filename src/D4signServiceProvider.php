@@ -19,7 +19,8 @@ class D4signServiceProvider extends PackageServiceProvider
             ->name('laravel-d4sign')
             ->hasConfigFile()
             ->hasViews()
-            ->hasCommand(D4signCommand::class);
+            ->hasCommand(D4signCommand::class)
+        ;
     }
 
     public function packageRegistered(): void

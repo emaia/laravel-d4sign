@@ -18,11 +18,6 @@ class Client implements ClientInterface
         ])->baseUrl($this->getBaseUrl());
     }
 
-    protected function getBaseUrl(): string
-    {
-        return config('d4sign.environment') === 'production' ? config('d4sign.production_url') : config('d4sign.sandbox_url');
-    }
-
     public function get(string $url, array $query = []): array
     {
         return $this->client->get($url, $query)->json();
@@ -36,5 +31,10 @@ class Client implements ClientInterface
     public function attach(string $name, $content): PendingRequest
     {
         return $this->client->attach($name, $content);
+    }
+
+    protected function getBaseUrl(): string
+    {
+        return 'production' === config('d4sign.environment') ? config('d4sign.production_url') : config('d4sign.sandbox_url');
     }
 }
