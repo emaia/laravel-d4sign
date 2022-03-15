@@ -67,6 +67,19 @@ class Documents extends Service
         ]);
     }
 
+    public function uploadBinaryAttachment(
+        string $uuidDocument,
+        string $base64BinaryFile,
+        string $mimeType,
+        string $fileName,
+    ): array {
+        return $this->client->post("documents/{$uuidDocument}/uploadslavebinary", [
+            'base64_binary_file' => $base64BinaryFile,
+            'mime_type' => $mimeType,
+            'name' => $fileName,
+        ]);
+    }
+
     public function addSigners(string $uuidDocument, array $signers): array
     {
         return $this->client->post(

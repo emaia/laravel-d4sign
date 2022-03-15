@@ -51,13 +51,28 @@ it('can upload a binary document.', function () {
     $filePath = __DIR__.'/../Mocks/d4sign-sample-document.pdf';
     $fileSize = filesize($filePath);
     $file = base64_encode(fread(fopen($filePath, 'rb'), $fileSize));
-    $mime_type = 'application/pdf';
+    $mimeType = 'application/pdf';
     $name = 'Sample Document';
 
-    $response = D4sign::documents()->uploadBinary($safe[0]['uuid_safe'], $file, $mime_type, $name);
+    $response = D4sign::documents()->uploadBinary($safe[0]['uuid_safe'], $file, $mimeType, $name);
 
     expect($response)->toBeArray();
     expect($response)->toHaveKey('uuid');
+})->group('integration');
+
+it('can upload a attachment binary to the primary document.', function () {
+    $documents = D4sign::documents()->all();
+    $document = D4sign::documents()->find($documents[1]['uuidDoc']);
+    $filePath = __DIR__.'/../Mocks/d4sign-sample-document.pdf';
+    $fileSize = filesize($filePath);
+    $file = base64_encode(fread(fopen($filePath, 'rb'), $fileSize));
+    $mimeType = 'application/pdf';
+    $name = 'Sample Document Binary';
+
+    $response = D4sign::documents()->uploadBinaryAttachment($document[0]['uuidDoc'], $file, $mimeType, $name);
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('message', 'File created');
 })->group('integration');
 
 it('can get a documents by id.', function () {
