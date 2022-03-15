@@ -1,6 +1,7 @@
 <?php
 
 use Emaia\D4sign\Facades\D4sign;
+
 use function Pest\Faker\faker;
 
 it('can get all documents in the account (limited by 500 per page).', function () {
@@ -28,6 +29,32 @@ it('can upload a primary document.', function () {
     $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
 
     $response = D4sign::documents()->upload($safe[0]['uuid_safe'], $file);
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('uuid');
+})->group('integration');
+
+it('can upload a attachment to a primary document.', function () {
+    $documents = D4sign::documents()->all();
+    $document = D4sign::documents()->find($documents[1]['uuidDoc']);
+
+    $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
+
+    $response = D4sign::documents()->uploadAttachment($document[0]['uuidDoc'], $file);
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('message', 'File created');
+})->group('integration');
+
+it('can upload a binary document.', function () {
+    $safe = D4sign::safes()->all();
+    $filePath = __DIR__.'/../Mocks/d4sign-sample-document.pdf';
+    $fileSize = filesize($filePath);
+    $file = base64_encode(fread(fopen($filePath, 'rb'), $fileSize));
+    $mime_type = 'application/pdf';
+    $name = 'Sample Document';
+
+    $response = D4sign::documents()->uploadBinary($safe[0]['uuid_safe'], $file, $mime_type, $name);
 
     expect($response)->toBeArray();
     expect($response)->toHaveKey('uuid');

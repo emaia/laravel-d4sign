@@ -6,23 +6,23 @@ use Emaia\D4sign\Service;
 
 class Folders extends Service
 {
-    public function find(string $uuid_safe): array
+    public function find(string $uuidSafe): array
     {
-        return $this->client->get("folders/{$uuid_safe}/find");
+        return $this->client->get("folders/{$uuidSafe}/find");
     }
 
-    public function create(string $uuid_safe, string $folder_name): array
+    public function create(string $uuidSafe, string $folderName): array
     {
-        return $this->client->post("folders/{$uuid_safe}/create", [
-            'folder_name' => $folder_name,
+        return $this->client->post("folders/{$uuidSafe}/create", [
+            'folder_name' => $folderName,
         ]);
     }
 
-    public function rename(string $uuid_safe, string $uuid_folder, string $folder_name): array
+    public function rename(string $uuidSafe, string $uuid_folder, string $folderName): array
     {
-        return $this->client->post("folders/{$uuid_safe}/rename", [
+        return $this->client->post("folders/{$uuidSafe}/rename", [
             'uuid_folder' => $uuid_folder,
-            'folder_name' => $folder_name,
+            'folder_name' => $folderName,
         ]);
     }
 }

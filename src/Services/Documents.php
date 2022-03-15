@@ -11,19 +11,19 @@ class Documents extends Service
         return $this->client->get('documents', ['pg' => $page]);
     }
 
-    public function find(string $uuid_document = ''): array
+    public function find(string $uuidDocument = ''): array
     {
-        return $this->client->get(sprintf('documents%s', $uuid_document ? '/'.$uuid_document : ''));
+        return $this->client->get(sprintf('documents%s', $uuidDocument ? '/'.$uuidDocument : ''));
     }
 
-    public function fromSafe(string $uuid_safe, int $page = 1): array
+    public function fromSafe(string $uuidSafe, int $page = 1): array
     {
-        return $this->client->get("documents/{$uuid_safe}/safe", ['pg' => $page]);
+        return $this->client->get("documents/{$uuidSafe}/safe", ['pg' => $page]);
     }
 
-    public function fromFolder(string $uuid_safe, string $uuid_folder, int $page = 1): array
+    public function fromFolder(string $uuidSafe, string $uuidFolder, int $page = 1): array
     {
-        return $this->client->get("documents/{$uuid_safe}/safe/{$uuid_folder}", ['pg' => $page]);
+        return $this->client->get("documents/{$uuidSafe}/safe/{$uuidFolder}", ['pg' => $page]);
     }
 
     public function byStatus(int $documentStatusId, int $page = 1): array
@@ -31,21 +31,47 @@ class Documents extends Service
         return $this->client->get("documents/{$documentStatusId}/status", ['pg' => $page]);
     }
 
-    public function signers(string $uuid_document): array
+    public function signers(string $uuidDocument): array
     {
-        return $this->client->get("documents/{$uuid_document}/list");
+        return $this->client->get("documents/{$uuidDocument}/list");
     }
 
-    public function upload(string $uuid_safe, $file, string $uuid_folder = ''): array
+    public function upload(string $uuidSafe, $file, string $uuidFolder = ''): array
     {
         return $this->client->attach('file', $file)
-            ->post(sprintf('documents%s/upload', $uuid_safe ? '/'.$uuid_safe : ''), [
-                'uuid_folder' => $uuid_folder,
+            ->post(sprintf('documents%s/upload', $uuidSafe ? '/'.$uuidSafe : ''), [
+                'uuid_folder' => $uuidFolder,
             ])->json();
     }
 
-    public function addSigners(string $document_uuid, array $signers): array
+    public function uploadAttachment(string $uuidDocument, $file): array
     {
-        return $this->client->post("documents/{$document_uuid}/createlist", ['signers' => json_encode($signers)]);
+        return $this->client->attach('file', $file)
+            ->post("documents/{$uuidDocument}/uploadslave")
+            ->json()
+        ;
+    }
+
+    public function uploadBinary(
+        string $uuidSafe,
+        string $base64BinaryFile,
+        string $mimeType,
+        string $fileName,
+        string $uuidFolder = ''
+    ): array {
+        return $this->client->post("documents/{$uuidSafe}/uploadbinary", [
+            'base64_binary_file' => $base64BinaryFile,
+            'mime_type' => $mimeType,
+            'name' => $fileName,
+            'uuid_folder' => $uuidFolder,
+        ]);
+    }
+
+    public function addSigners(string $uuidDocument, array $signers): array
+    {
+        return $this->client->post(
+            "documents/{$uuidDocument}/createlist",
+            ['signers' => json_encode($signers)]
+        );
     }
 }
