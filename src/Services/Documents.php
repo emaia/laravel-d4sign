@@ -107,6 +107,14 @@ class Documents extends Service
         );
     }
 
+    public function removeSigners(string $uuidDocument, string $signerEmail, string $signerKey): array
+    {
+        return $this->client->post(
+            "documents/$uuidDocument/removeemaillist",
+            ['email-signer' => $signerEmail, 'key-signer' => $signerKey]
+        );
+    }
+
     protected function isValidResource($file)
     {
         if (false === is_resource($file)) {

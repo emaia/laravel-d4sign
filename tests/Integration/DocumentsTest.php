@@ -4,7 +4,7 @@ use Emaia\D4sign\Facades\D4sign;
 
 use function Pest\Faker\faker;
 
-it('can get all documents in the account (limited by 500 per page).', function () {
+it('can get all documents in the account (limited by 500 per page)', function () {
     $response = D4sign::documents()->all();
 
     expect($response)->toBeArray();
@@ -16,37 +16,38 @@ it('can get all documents in the account (limited by 500 per page).', function (
     ]);
 })->group('integration');
 
-it('can get all documents in the account on page 2.', function () {
+it('can get all documents in the account on page 2', function () {
     $response = D4sign::documents()->all(2);
 
     expect($response)->toBeArray();
     expect($response[0])->toHaveKey('current_page', '2');
 })->group('integration');
 
-it('can upload a primary document.', function () {
+it('can upload a primary document', function () {
     $safe = D4sign::safes()->all();
 
     $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
 
     $response = D4sign::documents()->upload($safe[0]['uuid_safe'], $file);
 
+    fclose($file);
+
     expect($response)->toBeArray();
     expect($response)->toHaveKey('uuid');
+
+    return $response;
 })->group('integration');
 
-it('can upload a attachment to a primary document.', function () {
-    $documents = D4sign::documents()->all();
-    $document = D4sign::documents()->find($documents[1]['uuidDoc']);
-
+it('can upload a attachment to a primary document', function ($document) {
     $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
 
-    $response = D4sign::documents()->uploadAttachment($document[0]['uuidDoc'], $file);
+    $response = D4sign::documents()->uploadAttachment($document['uuid'], $file);
 
     expect($response)->toBeArray();
     expect($response)->toHaveKey('message', 'File created');
-})->group('integration');
+})->depends('it can upload a primary document')->group('integration');
 
-it('can upload a binary document.', function () {
+it('can upload a binary document', function () {
     $safe = D4sign::safes()->all();
     $filePath = __DIR__.'/../Mocks/d4sign-sample-document.pdf';
     $fileSize = filesize($filePath);
@@ -58,24 +59,24 @@ it('can upload a binary document.', function () {
 
     expect($response)->toBeArray();
     expect($response)->toHaveKey('uuid');
+
+    return $response;
 })->group('integration');
 
-it('can upload a attachment binary to the primary document.', function () {
-    $documents = D4sign::documents()->all();
-    $document = D4sign::documents()->find($documents[1]['uuidDoc']);
+it('can upload a binary attachment to the primary document', function ($document) {
     $filePath = __DIR__.'/../Mocks/d4sign-sample-document.pdf';
     $fileSize = filesize($filePath);
     $file = base64_encode(fread(fopen($filePath, 'rb'), $fileSize));
     $mimeType = 'application/pdf';
     $name = 'Sample Document Binary';
 
-    $response = D4sign::documents()->uploadBinaryAttachment($document[0]['uuidDoc'], $file, $mimeType, $name);
+    $response = D4sign::documents()->uploadBinaryAttachment($document['uuid'], $file, $mimeType, $name);
 
     expect($response)->toBeArray();
     expect($response)->toHaveKey('message', 'File created');
-})->group('integration');
+})->depends('it can upload a binary document')->group('integration');
 
-it('can upload a document hash.', function () {
+it('can upload a document hash', function () {
     $safe = D4sign::safes()->all();
     $filePath = __DIR__.'/../Mocks/d4sign-sample-document.pdf';
 
@@ -94,16 +95,15 @@ it('can upload a document hash.', function () {
     expect($response)->toHaveKey('uuid');
 })->group('integration');
 
-it('can get a documents by id.', function () {
-    $documents = D4sign::documents()->all();
-    $response = D4sign::documents()->find($documents[1]['uuidDoc']);
+it('can get a documents by id', function ($document) {
+    $response = D4sign::documents()->find($document['uuid']);
 
     expect($response)->toBeArray();
     expect($response[0])->toHaveKeys([
         'uuidDoc',
         'nameDoc',
     ]);
-})->group('integration');
+})->depends('it can upload a primary document')->group('integration');
 
 it('can get all documents from a safe.', function () {
     $safes = D4sign::safes()->all();
@@ -145,27 +145,12 @@ it('can get all documents by status.', function () {
     ]);
 })->group('integration');
 
-it('can get all document signers.', function () {
-    $documents = D4sign::documents()->all();
-    $response = D4sign::documents()->signers($documents[1]['uuidDoc']);
-
-    expect($response)->toBeArray();
-    expect($response[0])->toHaveKeys([
-        'uuidDoc',
-        'list',
-    ]);
-})->group('integration');
-
-it('can register a signer in a document.', function () {
-    $safe = D4sign::safes()->all();
-
-    $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
-
-    $uploadedFile = D4sign::documents()->upload($safe[0]['uuid_safe'], $file);
+it('can add signers in the document', function ($document) {
+    $email = faker()->safeEmail;
 
     $signers = [
         [
-            'email' => faker()->safeEmail,
+            'email' => $email,
             'act' => 1,
             'foreign' => 0,
             'certificadoicpbr' => 0,
@@ -173,11 +158,32 @@ it('can register a signer in a document.', function () {
         ],
     ];
 
-    $response = D4sign::documents()->addSigners($uploadedFile['uuid'], $signers);
+    $response = D4sign::documents()->addSigners($document['uuid'], $signers);
 
     expect($response)->toBeArray();
-    expect($response['message'][0])->toHaveKeys([
-        'key_signer',
-        'email',
-    ]);
-})->group('integration');
+    expect($response['message'][0])->toHaveKeys(['key_signer', 'email']);
+
+    $key = $response['message'][0]['key_signer'];
+
+    return [$document, $email, $key];
+})->depends('it can upload a primary document')->group('integration');
+
+it('can get all document signers', function (array $payload) {
+    $response = D4sign::documents()->signers($payload[0]['uuid']);
+
+    expect($response)->toBeArray();
+    expect($response[0])->toHaveKey('list.0.email', $payload[1]);
+
+    return $payload;
+})->depends('it can add signers in the document')->group('integration');
+
+it('can remove a document signer', function (array $payload) {
+    $uuidDocument = $payload[0]['uuid'];
+    $email = $payload[1];
+    $keySigner = $payload[2];
+
+    $response = D4sign::documents()->removeSigners($uuidDocument, $email, $keySigner);
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('message', 'E-mail has removed');
+})->depends('it can get all document signers')->group('integration');
