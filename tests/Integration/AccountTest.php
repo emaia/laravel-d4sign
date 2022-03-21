@@ -2,7 +2,7 @@
 
 use Emaia\D4sign\Facades\D4sign;
 
-it('can test api call.', function () {
+it('can test api call', function () {
     $response = D4sign::account()->testCall();
 
     expect($response)->toHaveKeys(['message']);
@@ -18,4 +18,4 @@ it('can check the account balance.', function () {
         'sms',
         'whatsapp',
     ]);
-})->group('integration');
+})->depends('it can test api call')->group('integration');
