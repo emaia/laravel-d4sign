@@ -36,7 +36,7 @@ it('can upload a primary document', function () {
     expect($response)->toHaveKey('uuid');
 
     return $response;
-})->group('integration2');
+})->group('integration');
 
 it('can upload a attachment to a primary document', function ($document) {
     $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
@@ -188,10 +188,17 @@ it('can remove a document signer', function (array $payload) {
     expect($response)->toHaveKey('message', 'E-mail has removed');
 })->depends('it can get all document signers')->group('integration');
 
+it('can download a document', function ($document) {
+    $response = D4sign::documents()->download($document['uuid']);
+    expect($response)->toBeArray();
+    expect($response)->toHaveKeys(['url', 'name']);
+})->depends('it can upload a primary document')->group('integration');
+
+
 it('can cancel a document', function ($document) {
     $response = D4sign::documents()->cancel($document['uuid'], 'Test cancel comment');
     expect($response)->toBeArray();
     expect($response[0])->toHaveKey('uuidDoc', $document['uuid']);
     expect($response[0])->toHaveKey('statusName', 'Cancelado');
     // expect($response[0])->toHaveKey('statusComment', 'Test cancel comment');
-})->depends('it can upload a primary document')->group('integration2');
+})->depends('it can upload a primary document')->group('integration');

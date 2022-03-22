@@ -106,6 +106,14 @@ class Documents extends Service
         ]);
     }
 
+    public function download(string $uuidDocument, string $type = 'pdf', string $lang = 'pt'): array
+    {
+        return $this->client->post("documents/$uuidDocument/download", [
+            "type" => $type,
+            "lang" => $lang
+        ]);
+    }
+
     public function addSigners(string $uuidDocument, array $signers): array
     {
         return $this->client->post(

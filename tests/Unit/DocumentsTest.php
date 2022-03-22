@@ -241,3 +241,16 @@ it('can cancel a document', function () {
     expect($response[0])->toHaveKey('uuidDoc', $uuidDocument);
     expect($response[0])->toHaveKey('statusName', 'Cancelado');
 });
+
+it('can download a document', function () {
+    $uuidDocument = faker()->uuid;
+    $type = 'pdf';
+    $lang = 'pt';
+
+    mockHttpResponse(['url' => faker()->url, 'name' => faker()->text]);
+
+    $response = D4sign::documents()->download($uuidDocument, $type, $lang);
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKeys(['url', 'name']);
+});
