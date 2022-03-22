@@ -37,6 +37,13 @@ class Documents extends Service
         return $this->client->get("documents/$uuidDocument/list");
     }
 
+    public function cancel(string $uuidDocument, string $comment = ''): array
+    {
+        return $this->client->post("documents/$uuidDocument/cancel", [
+            'comment' => json_encode($comment)
+        ]);
+    }
+
     public function upload(string $uuidSafe, $file, string $uuidFolder = ''): array
     {
         $this->isValidResource($file);

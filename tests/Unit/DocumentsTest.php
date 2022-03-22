@@ -232,3 +232,12 @@ it('can remove a document signer', function () {
     expect($response)->toBeArray();
     expect($response)->toHaveKey('message', 'E-mail has removed');
 });
+
+it('can cancel a document', function () {
+    $uuidDocument = faker()->uuid;
+    mockHttpResponse([['uuidDoc' => $uuidDocument, 'statusName' => 'Cancelado']]);
+    $response = D4sign::documents()->cancel($uuidDocument);
+    expect($response)->toBeArray();
+    expect($response[0])->toHaveKey('uuidDoc', $uuidDocument);
+    expect($response[0])->toHaveKey('statusName', 'Cancelado');
+});
