@@ -40,7 +40,7 @@ class Documents extends Service
     public function cancel(string $uuidDocument, string $comment = ''): array
     {
         return $this->client->post("documents/$uuidDocument/cancel", [
-            'comment' => json_encode($comment)
+            'comment' => json_encode($comment),
         ]);
     }
 
@@ -110,7 +110,7 @@ class Documents extends Service
     {
         return $this->client->post("documents/$uuidDocument/download", [
             "type" => $type,
-            "lang" => $lang
+            "lang" => $lang,
         ]);
     }
 
