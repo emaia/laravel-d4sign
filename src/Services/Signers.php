@@ -26,7 +26,7 @@ class Signers extends Service
             [
                 'email-before' => $oldEmail,
                 'email-after' => $newEmail,
-                'key-signer' => $keySigner
+                'key-signer' => $keySigner,
             ]
         );
     }
