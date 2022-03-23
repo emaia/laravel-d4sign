@@ -36,7 +36,7 @@ it('can upload a primary document', function () {
     expect($response)->toHaveKey('uuid');
 
     return $response;
-})->group('integration');
+})->group('integration2');
 
 it('can upload a attachment to a primary document', function ($document) {
     $file = fopen(__DIR__.'/../Mocks/d4sign-sample-document.pdf', 'r');
@@ -166,7 +166,7 @@ it('can add signers in the document', function ($document) {
     $key = $response['message'][0]['key_signer'];
 
     return [$document, $email, $key];
-})->depends('it can upload a primary document')->group('integration');
+})->depends('it can upload a primary document')->group('integration2');
 
 it('can get all document signers', function (array $payload) {
     $response = D4sign::signers()->all($payload[0]['uuid']);
@@ -177,6 +177,19 @@ it('can get all document signers', function (array $payload) {
     return $payload;
 })->depends('it can add signers in the document')->group('integration');
 
+it('can update a signer', function (array $payload) {
+    $response = D4sign::signers()->update(
+        $payload[0]['uuid'],
+        $payload[1],
+        'john.doe@example.net'
+    );
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('message', 'E-mail changed');
+
+    return [$payload[0], 'john.doe@example.net', $payload[2]];
+})->depends('it can add signers in the document')->group('integration2');
+
 it('can remove a document signer', function (array $payload) {
     $uuidDocument = $payload[0]['uuid'];
     $email = $payload[1];
@@ -186,7 +199,7 @@ it('can remove a document signer', function (array $payload) {
 
     expect($response)->toBeArray();
     expect($response)->toHaveKey('message', 'E-mail has removed');
-})->depends('it can get all document signers')->group('integration');
+})->depends('it can update a signer')->group('integration2');
 
 it('can download a document', function ($document) {
     $response = D4sign::documents()->download($document['uuid']);

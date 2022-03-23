@@ -6,7 +6,6 @@ use Emaia\D4sign\Service;
 
 class Signers extends Service
 {
-
     public function all(string $uuidDocument): array
     {
         return $this->client->get("documents/$uuidDocument/list");
@@ -20,6 +19,18 @@ class Signers extends Service
         );
     }
 
+    public function update(string $uuidDocument, string $oldEmail, string $newEmail, string $keySigner = ''): array
+    {
+        return $this->client->post(
+            "documents/$uuidDocument/changeemail",
+            [
+                'email-before' => $oldEmail,
+                'email-after' => $newEmail,
+                'key-signer' => $keySigner
+            ]
+        );
+    }
+
     public function remove(string $uuidDocument, string $signerEmail, string $signerKey): array
     {
         return $this->client->post(
@@ -27,5 +38,4 @@ class Signers extends Service
             ['email-signer' => $signerEmail, 'key-signer' => $signerKey]
         );
     }
-
 }

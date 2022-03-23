@@ -180,23 +180,6 @@ it('can get all documents by status.', function () {
     ]);
 });
 
-it('can get all document signers.', function () {
-    mockHttpResponse([
-        [
-            'uuidDoc' => faker()->uuid,
-            'list' => [],
-        ],
-    ]);
-
-    $response = D4sign::signers()->all(faker()->uuid);
-
-    expect($response)->toBeArray();
-    expect($response[0])->toHaveKeys([
-        'uuidDoc',
-        'list',
-    ]);
-});
-
 it('can register a signer in a document.', function () {
     mockHttpResponse([
         [
@@ -222,6 +205,37 @@ it('can register a signer in a document.', function () {
         'key_signer',
         'email',
     ]);
+});
+
+it('can get all document signers.', function () {
+    mockHttpResponse([
+        [
+            'uuidDoc' => faker()->uuid,
+            'list' => [],
+        ],
+    ]);
+
+    $response = D4sign::signers()->all(faker()->uuid);
+
+    expect($response)->toBeArray();
+    expect($response[0])->toHaveKeys([
+        'uuidDoc',
+        'list',
+    ]);
+});
+
+it('can update a signer', function () {
+    mockHttpResponse(["message" => "E-mail changed"]);
+
+    $response = D4sign::signers()->update(
+        faker()->uuid,
+        faker()->email,
+        faker()->email,
+        faker()->text(6)
+    );
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('message', 'E-mail changed');
 });
 
 it('can remove a document signer', function () {
