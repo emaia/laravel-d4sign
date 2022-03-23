@@ -32,11 +32,6 @@ class Documents extends Service
         return $this->client->get("documents/$documentStatusId/status", ['pg' => $page]);
     }
 
-    public function signers(string $uuidDocument): array
-    {
-        return $this->client->get("documents/$uuidDocument/list");
-    }
-
     public function cancel(string $uuidDocument, string $comment = ''): array
     {
         return $this->client->post("documents/$uuidDocument/cancel", [
@@ -112,22 +107,6 @@ class Documents extends Service
             "type" => $type,
             "lang" => $lang,
         ]);
-    }
-
-    public function addSigners(string $uuidDocument, array $signers): array
-    {
-        return $this->client->post(
-            "documents/$uuidDocument/createlist",
-            ['signers' => json_encode($signers)]
-        );
-    }
-
-    public function removeSigners(string $uuidDocument, string $signerEmail, string $signerKey): array
-    {
-        return $this->client->post(
-            "documents/$uuidDocument/removeemaillist",
-            ['email-signer' => $signerEmail, 'key-signer' => $signerKey]
-        );
     }
 
     protected function isValidResource($file)

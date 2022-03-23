@@ -7,6 +7,7 @@ use Emaia\D4sign\Services\Documents;
 use Emaia\D4sign\Services\Folders;
 use Emaia\D4sign\Services\Groups;
 use Emaia\D4sign\Services\Safes;
+use Emaia\D4sign\Services\Signers;
 use Emaia\D4sign\Services\Templates;
 
 class D4sign
@@ -17,6 +18,7 @@ class D4sign
         public Folders $folders,
         public Groups $groups,
         public Safes $safes,
+        public Signers $signers,
         public Templates $templates,
     ) {
     }
@@ -44,6 +46,11 @@ class D4sign
     public function safes(): Safes
     {
         return $this->safes;
+    }
+
+    public function signers(): Signers
+    {
+        return $this->signers;
     }
 
     public function templates(): Templates

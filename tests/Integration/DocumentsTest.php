@@ -158,7 +158,7 @@ it('can add signers in the document', function ($document) {
         ],
     ];
 
-    $response = D4sign::documents()->addSigners($document['uuid'], $signers);
+    $response = D4sign::signers()->add($document['uuid'], $signers);
 
     expect($response)->toBeArray();
     expect($response['message'][0])->toHaveKeys(['key_signer', 'email']);
@@ -169,7 +169,7 @@ it('can add signers in the document', function ($document) {
 })->depends('it can upload a primary document')->group('integration');
 
 it('can get all document signers', function (array $payload) {
-    $response = D4sign::documents()->signers($payload[0]['uuid']);
+    $response = D4sign::signers()->all($payload[0]['uuid']);
 
     expect($response)->toBeArray();
     expect($response[0])->toHaveKey('list.0.email', $payload[1]);
@@ -182,7 +182,7 @@ it('can remove a document signer', function (array $payload) {
     $email = $payload[1];
     $keySigner = $payload[2];
 
-    $response = D4sign::documents()->removeSigners($uuidDocument, $email, $keySigner);
+    $response = D4sign::signers()->remove($uuidDocument, $email, $keySigner);
 
     expect($response)->toBeArray();
     expect($response)->toHaveKey('message', 'E-mail has removed');

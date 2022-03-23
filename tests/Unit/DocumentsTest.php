@@ -188,7 +188,7 @@ it('can get all document signers.', function () {
         ],
     ]);
 
-    $response = D4sign::documents()->signers(faker()->uuid);
+    $response = D4sign::signers()->all(faker()->uuid);
 
     expect($response)->toBeArray();
     expect($response[0])->toHaveKeys([
@@ -215,7 +215,7 @@ it('can register a signer in a document.', function () {
         ],
     ];
 
-    $response = D4sign::documents()->addSigners(faker()->uuid, $signers);
+    $response = D4sign::signers()->add(faker()->uuid, $signers);
 
     expect($response)->toBeArray();
     expect($response[0])->toHaveKeys([
@@ -227,7 +227,7 @@ it('can register a signer in a document.', function () {
 it('can remove a document signer', function () {
     mockHttpResponse(['message' => 'E-mail has removed']);
 
-    $response = D4sign::documents()->removeSigners(faker()->uuid, faker()->email, faker()->text(6));
+    $response = D4sign::signers()->remove(faker()->uuid, faker()->email, faker()->text(6));
 
     expect($response)->toBeArray();
     expect($response)->toHaveKey('message', 'E-mail has removed');

@@ -7,6 +7,7 @@ use Emaia\D4sign\Services\Documents;
 use Emaia\D4sign\Services\Folders;
 use Emaia\D4sign\Services\Groups;
 use Emaia\D4sign\Services\Safes;
+use Emaia\D4sign\Services\Signers;
 use Emaia\D4sign\Services\Templates;
 use Illuminate\Support\Facades\Facade;
 
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Folders folders()
  * @method static Groups groups()
  * @method static Safes safes()
+ * @method static Signers signers()
  * @method static Templates templates()
  */
 class D4sign extends Facade
