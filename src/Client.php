@@ -9,10 +9,6 @@ class Client implements ClientInterface
 {
     protected PendingRequest $client;
 
-    protected const ENV_PRODUCTION = 'https://secure.d4sign.com.br/api/v1/';
-
-    protected const ENV_SANDBOX = 'https://sandbox.d4sign.com.br/api/v1/';
-
     public function __construct()
     {
         $this->client = Http::withHeaders([
@@ -20,11 +16,6 @@ class Client implements ClientInterface
             'tokenAPI' => config('d4sign.token_api'),
             'cryptKey' => config('d4sign.crypt_key'),
         ])->baseUrl($this->getBaseUrl());
-    }
-
-    protected function getBaseUrl(): string
-    {
-        return config('d4sign.environment') === 'production' ? self::ENV_PRODUCTION : self::ENV_SANDBOX;
     }
 
     public function get(string $url, array $query = []): array
@@ -40,5 +31,10 @@ class Client implements ClientInterface
     public function attach(string $name, $content): PendingRequest
     {
         return $this->client->attach($name, $content);
+    }
+
+    protected function getBaseUrl(): string
+    {
+        return 'production' === config('d4sign.environment') ? config('d4sign.production_url') : config('d4sign.sandbox_url');
     }
 }

@@ -14,8 +14,8 @@ it('can get all groups in a safe.', function () {
         ]
     );
 
-    $result = D4sign::groups()->all(faker()->uuid);
+    $response = D4sign::groups()->all(faker()->uuid);
 
-    expect($result)->toBeArray();
-    expect($result[0])->toHaveKeys(['uuid_grupo', 'nome']);
+    expect($response)->toBeArray();
+    expect($response[0])->toHaveKeys(['uuid_grupo', 'nome']);
 });

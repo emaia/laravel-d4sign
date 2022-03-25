@@ -6,8 +6,8 @@ use Emaia\D4sign\Service;
 
 class Groups extends Service
 {
-    public function all(string $uuid_safe): array
+    public function all(string $uuidSafe): array
     {
-        return $this->client->get("groups/{$uuid_safe}");
+        return $this->client->get("groups/{$uuidSafe}");
     }
 }

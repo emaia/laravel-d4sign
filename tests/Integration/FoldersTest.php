@@ -4,29 +4,29 @@ use Emaia\D4sign\Facades\D4sign;
 
 use function Pest\Faker\faker;
 
-beforeEach(function () {
+it('can create a new folder in a safe', function () {
     $safe = D4sign::safes()->all();
-    $this->safeUuid = $safe[0]['uuid_safe'];
-});
+    $safeUuid = $safe[0]['uuid_safe'];
 
-it('can create a new folder in a safe.', function () {
-    $result = D4sign::folders()->create($this->safeUuid, faker()->name);
+    $folderName = faker()->text(10);
 
-    expect($result)->toHaveKeys(['message', 'uuid']);
+    $response = D4sign::folders()->create($safeUuid, $folderName);
+
+    expect($response)->toHaveKeys(['message', 'uuid']);
+
+    return [$safeUuid, $response['uuid'], $folderName];
 })->group('integration');
 
-it('can get all folders in a safe.', function () {
-    $result = D4sign::folders()->find($this->safeUuid);
+it('can get all folders in a safe.', function ($payload) {
+    $response = D4sign::folders()->find($payload[0]);
 
-    $this->folderUuid = $result[0]['uuid_safe'];
+    $this->folderUuid = $response[0]['uuid_safe'];
 
-    expect($result[0])->toHaveKeys(['uuid_safe', 'uuid_folder', 'name', 'dt_cadastro']);
-})->group('integration');
+    expect($response[0])->toHaveKeys(['uuid_safe', 'uuid_folder', 'name', 'dt_cadastro']);
+})->depends('it can create a new folder in a safe')->group('integration');
 
-it('can rename a folder in a safe.', function () {
-    $folder = D4sign::folders()->find($this->safeUuid);
+it('can rename a folder in a safe.', function ($payload) {
+    $response = D4sign::folders()->rename($payload[0], $payload[1], "renamed_$payload[2]");
 
-    $result = D4sign::folders()->rename($this->safeUuid, $folder[0]['uuid_folder'], "renamed_{$folder[0]['name']}");
-
-    expect($result)->toHaveKey('message');
-})->group('integration');
+    expect($response)->toHaveKey('message');
+})->depends('it can create a new folder in a safe')->group('integration');
