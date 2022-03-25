@@ -190,6 +190,32 @@ it('can update a signer', function (array $payload) {
     return [$payload[0], 'john.doe@example.net', $payload[2]];
 })->depends('it can add signers in the document')->group('integration');
 
+it('can update a sms signer', function (array $payload) {
+    $response = D4sign::signers()->updateSms(
+        $payload[0]['uuid'],
+        'john.doe@example.net',
+        '+5511953874555',
+    );
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('message', 'SMS number changed');
+
+    return [$payload[0], 'john.doe@example.net', $payload[2]];
+})->depends('it can add signers in the document')->group('integration');
+
+it('can update a signer password code', function (array $payload) {
+    $response = D4sign::signers()->updatePasswordCode(
+        $payload[0]['uuid'],
+        'john.doe@example.net',
+        '123456',
+    );
+
+    expect($response)->toBeArray();
+    expect($response)->toHaveKey('message', 'Password code changed');
+
+    return [$payload[0], 'john.doe@example.net', $payload[2]];
+})->depends('it can add signers in the document')->group('integration');
+
 it('can remove a document signer', function (array $payload) {
     $uuidDocument = $payload[0]['uuid'];
     $email = $payload[1];
