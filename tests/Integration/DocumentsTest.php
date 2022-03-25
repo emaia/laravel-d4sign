@@ -233,7 +233,6 @@ it('can download a document', function ($document) {
     expect($response)->toHaveKeys(['url', 'name']);
 })->depends('it can upload a primary document')->group('integration');
 
-
 it('can cancel a document', function ($document) {
     $response = D4sign::documents()->cancel($document['uuid'], 'Test cancel comment');
     expect($response)->toBeArray();
