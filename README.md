@@ -19,13 +19,13 @@ Add your D4Sign token key and crypt key in the .env
 
 ```
 D4SIGN_TOKEN_API=*******  
-D4SIGN_TOKEN_API=*******
+D4SIGN_CRYPT_KEY=*******
 ```
 
 ## Usage
 
 ```php
-echo D4sign::account()->balance();
+$balance = D4sign::account()->balance();
 ```
 
 ## Testing
@@ -34,7 +34,9 @@ echo D4sign::account()->balance();
 composer test
 ```
 
-You can run integration tests to the API. Use with moderation.
+Para executar os testes utilizando requisições à API:  
+`cp phpunit.xml.dist phpunit.xml`  
+Adicione as chaves de integração `D4SIGN_TOKEN_API` e `D4SIGN_CRYPT_KEY` e execute o comando:
 
 ```bash
 composer test-integration

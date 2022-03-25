@@ -109,9 +109,9 @@ class Documents extends Service
         ]);
     }
 
-    protected function isValidResource($file)
+    protected function isValidResource($file): bool
     {
-        if (false === is_resource($file)) {
+        if (is_resource($file) === false) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Argument must be a valid resource type. %s given.',
@@ -119,5 +119,7 @@ class Documents extends Service
                 )
             );
         }
+
+        return true;
     }
 }

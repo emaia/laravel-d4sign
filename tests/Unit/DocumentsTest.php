@@ -2,6 +2,8 @@
 
 use Emaia\D4sign\Facades\D4sign;
 
+use Emaia\D4sign\Services\Documents;
+
 use function Pest\Faker\faker;
 
 it('can get all documents in the account (limited by 500 per page).', function () {
@@ -201,3 +203,15 @@ it('can download a document', function () {
     expect($response)->toBeArray();
     expect($response)->toHaveKeys(['url', 'name']);
 });
+
+it('thrown an invalid argument exception if resource is not valid', function () {
+    try {
+        $className = get_class(D4sign::documents());
+        $reflection = new ReflectionClass($className);
+        $method = $reflection->getMethod('isValidResource');
+        $method->setAccessible(true);
+        return $method->invokeArgs(D4sign::documents(), ['invalid resource param']);
+    } catch (ReflectionException $e) {
+        throw new Exception($e->getMessage());
+    }
+})->throws('InvalidArgumentException');
