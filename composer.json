@@ -47,6 +47,7 @@
   "scripts": {
     "analyse": "vendor/bin/phpstan analyse",
     "test": "vendor/bin/pest --exclude-group=integration",
+    "test-integration": "vendor/bin/pest --group=integration",
     "test-coverage": "vendor/bin/pest --coverage --exclude-group=integration",
     "php-cs-fixer": "php-cs-fixer fix --config=./.php_cs.dist.php"
   },
