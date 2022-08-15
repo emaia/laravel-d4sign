@@ -52,7 +52,11 @@
     "php-cs-fixer": "php-cs-fixer fix --config=./.php_cs.dist.php"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "phpstan/extension-installer": true
+    }
   },
   "extra": {
     "laravel": {
